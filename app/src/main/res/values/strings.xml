@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Decimal Battery</string>
+    <string name="text_default_battery" translatable="false">- - -</string>
+    <string name="dialog_unsupported">I\'m sorry to imform you that your device does not support reading accurate battery capacity. Press OK to exit program.</string>
+    <string name="dialog_button_ok">OK</string>
+    <string name="dialog_button_cancel">Cancel</string>
+</resources>

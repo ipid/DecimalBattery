@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">小数点电量</string>
+    <string name="dialog_unsupported">很抱歉地告诉您，您的设备不支持读取精确的电量。点击“确定”退出本程序。</string>
+    <string name="dialog_button_cancel">取消</string>
+    <string name="dialog_button_ok">确定</string>
+</resources>
