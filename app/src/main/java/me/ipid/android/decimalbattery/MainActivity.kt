@@ -1,10 +1,11 @@
 package me.ipid.android.decimalbattery
 
+import android.app.Activity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Lifecycle
 import kotlinx.android.synthetic.main.activity_main.*
 
 private const val TAG = "MainActivity"
@@ -25,17 +26,19 @@ class MainActivity : AppCompatActivity() {
     /**
      * 更新电量值，并在指定时间过后再次递归更新。
      */
-    inner class BatteryUpdater: Runnable {
+    inner class BatteryUpdater : Runnable {
         override fun run() {
             // 尝试懒初始化，如果不成功就弹框
-            val initSucceed = BatteryInfo.initIfNeeded(this@MainActivity)
+            val initSucceed = BatteryInfo.init(this@MainActivity)
             if (!initSucceed) {
-                mustExitDialog(this@MainActivity)
+                mustExitDialog()
                 return
             }
 
             // 更新电量文本
-            text_battery.text = getBatteryText()
+            val batteryStr =
+                String.format("%.2f%%", BatteryInfo.getBattery(2 * UPDATE_INTERVAL) * 100.0)
+            text_battery.text = batteryStr
 
             // postDelayed 只执行一次，因此需要递归调用
             handler.postDelayed(this, UPDATE_INTERVAL)
@@ -63,15 +66,14 @@ class MainActivity : AppCompatActivity() {
         handler.removeCallbacks(updater)
     }
 
-    /**
-     * 得出电量百分比的文本，用于显示
-     */
-    private fun getBatteryText(): String {
-        val (_, capMah, totalMah) = BatteryInfo.getBatteryProperties()
-
-        val batteryStr = String.format("%.2f%%", capMah.toDouble() / totalMah.toDouble() * 100.0)
-        Log.d(TAG, "getBatteryText: 当前电量 $capMah，总电量 $totalMah，结果为 $batteryStr")
-        return batteryStr
+    private fun mustExitDialog() {
+        AlertDialog.Builder(this)
+            .setMessage(resources.getString(R.string.dialog_unsupported))
+            .setPositiveButton(resources.getString(R.string.dialog_button_ok)) { _, _ -> this.finish() }
+            .setOnCancelListener { this.finish() }
+            .setOnDismissListener { this.finish() }
+            .show()
     }
+
 
 }
