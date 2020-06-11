@@ -1,6 +1,5 @@
 package me.ipid.android.decimalbattery
 
-import android.app.Activity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -36,8 +35,13 @@ class MainActivity : AppCompatActivity() {
             }
 
             // 更新电量文本
-            val batteryStr =
-                String.format("%.2f%%", BatteryInfo.getBattery(2 * UPDATE_INTERVAL) * 100.0)
+            val batteryStr = String.format(
+                "%.2f%%",
+                BatteryInfo.getBattery(
+                    this@MainActivity,
+                    2 * UPDATE_INTERVAL
+                ) * 100.0
+            )
             text_battery.text = batteryStr
 
             // postDelayed 只执行一次，因此需要递归调用
@@ -68,6 +72,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun mustExitDialog() {
         AlertDialog.Builder(this)
+            .setTitle(resources.getString(R.string.app_name))
             .setMessage(resources.getString(R.string.dialog_unsupported))
             .setPositiveButton(resources.getString(R.string.dialog_button_ok)) { _, _ -> this.finish() }
             .setOnCancelListener { this.finish() }

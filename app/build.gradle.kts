@@ -1,3 +1,7 @@
+val APP_VERSION_NAME = "1.0.2"
+val APP_NAME_CHINESE = "小数点电量"
+val APP_PACKAGE_NAME = "me.ipid.android.decimalbattery"
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -9,11 +13,11 @@ android {
     buildToolsVersion("29.0.3")
 
     defaultConfig {
-        applicationId = "me.ipid.android.decimalbattery"
+        applicationId = APP_PACKAGE_NAME
         minSdkVersion(23)
         targetSdkVersion(29)
-        versionCode = 1000001
-        versionName = "1.0.1"
+        versionCode = 1000002
+        versionName = APP_VERSION_NAME
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -21,11 +25,12 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
-            isShrinkResources = true
+            isShrinkResources = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            setProperty("archivesBaseName", "${APP_NAME_CHINESE}v$APP_VERSION_NAME($APP_PACKAGE_NAME)")
         }
     }
 
